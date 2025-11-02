@@ -1,0 +1,64 @@
+/* Glassy Auth Modal Example CSS */
+:root{
+  --glass-bg: rgba(255,255,255,0.12);
+  --glass-border: rgba(255,255,255,0.25);
+  --accent: #6c7cff;
+  --blur: 10px;
+  --radius: 14px;
+}
+html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+.page-bg{
+  height:100%;
+  background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1600&q=80');
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: #fff;
+  text-align:center;
+}
+.content{max-width:760px;padding:2rem;background:linear-gradient(90deg, rgba(0,0,0,0.18), rgba(0,0,0,0.06));border-radius:12px}
+.btn{cursor:pointer;border:0;padding:0.6rem 1rem;border-radius:8px;background:rgba(255,255,255,0.12);color:#fff}
+.btn.primary{background:linear-gradient(90deg,var(--accent),#9b8dff);color:#fff}
+
+/* Overlay - keep it semi-transparent but not fully opaque so user still sees page */
+.overlay{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;backdrop-filter:none;z-index:50;
+}
+.overlay::before{
+  /* subtle darkening layer, low opacity so background is still visible */
+  content:"";position:absolute;inset:0;background:rgba(0,0,0,0.36);
+}
+.overlay.hidden{display:none}
+
+.auth-modal{
+  position:relative;z-index:60;width:92%;max-width:420px;padding:1.25rem;border-radius:var(--radius);
+  background:var(--glass-bg); /* the semi-transparent surface */
+  border:1px solid var(--glass-border);
+  box-shadow:0 8px 32px rgba(0,0,0,0.45);
+  backdrop-filter: blur(var(--blur)) saturate(120%);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(120%);
+  color:#fff;
+}
+.auth-modal .close{position:absolute;right:12px;top:8px;background:transparent;border:0;color:#fff;font-size:1rem;cursor:pointer}
+.tabs{display:flex;gap:8px;margin-top:4px}
+.tab{flex:1;padding:0.5rem;border-radius:10px;background:transparent;border:0;color:#fff;opacity:0.8;cursor:pointer}
+.tab.active{background:linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));box-shadow:inset 0 -1px 0 rgba(255,255,255,0.04);}
+.forms{margin-top:12px}
+.form{display:none;animation:fade .18s ease}
+.form.active{display:block}
+.form h2{margin:0 0 8px 0;font-size:1.25rem}
+.form label{display:block;font-size:0.85rem;color:rgba(255,255,255,0.9);margin:8px 0}
+.form input{width:100%;padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#fff}
+
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Make sure the background is clearly visible behind the glass: no opaque overlays */
+/* For environments that don't support backdrop-filter, provide a fallback */
+@supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
+  .auth-modal{background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));}
+}
+
+/* Responsive tweaks */
+@media (max-width:480px){.auth-modal{padding:1rem;border-radius:12px}}
